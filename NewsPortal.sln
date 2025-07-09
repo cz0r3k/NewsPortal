@@ -8,6 +8,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsPortal.Domain.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsPortal.Infrastructure", "NewsPortal.Infrastructure\NewsPortal.Infrastructure.csproj", "{1F17CBB7-401F-442C-B16F-06138DFB2A8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsPortal.Api", "NewsPortal.Api\NewsPortal.Api.csproj", "{908247BA-AB80-4081-A51C-FCCDEA1514C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E392DC24-A845-454E-BD9B-4FA17230DC5B}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +37,9 @@ Global
 		{1F17CBB7-401F-442C-B16F-06138DFB2A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F17CBB7-401F-442C-B16F-06138DFB2A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F17CBB7-401F-442C-B16F-06138DFB2A8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{908247BA-AB80-4081-A51C-FCCDEA1514C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{908247BA-AB80-4081-A51C-FCCDEA1514C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{908247BA-AB80-4081-A51C-FCCDEA1514C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{908247BA-AB80-4081-A51C-FCCDEA1514C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

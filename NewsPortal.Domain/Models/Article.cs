@@ -13,7 +13,7 @@ public class Article
     public string Slug { get; set; } = string.Empty;
     public Guid? CategoryId { get; set; } = null;
     public ArticleStatus Status { get; set; } = ArticleStatus.Draft;
-    public DateTime CreatedAt { get; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public void Publish() => Status = ArticleStatus.Published;
 
@@ -21,7 +21,7 @@ public class Article
     {
         if (string.IsNullOrWhiteSpace(title))
             return string.Empty;
-    
+
         return new string(title.ToLower()
             .Replace(" ", "-")
             .Where(c => char.IsLetterOrDigit(c) || c == '-')

@@ -15,7 +15,6 @@ public class UpdateArticleHandler(IArticleRepository articleRepository)
             return Result.Fail("Article not found");
         if (request.Title is not null)
         {
-            article.Title = request.Title;
             var oldSlug = Article.GenerateSlug(article.Title);
             var newSlug = Article.GenerateSlug(request.Title);
             if (!Equals(oldSlug, newSlug))
@@ -24,6 +23,7 @@ public class UpdateArticleHandler(IArticleRepository articleRepository)
                 var finalSlug = count == 0 ? newSlug : $"{newSlug}-{count}";
                 article.Slug = finalSlug;
             }
+            article.Title = request.Title;
         }
 
         if (request.Content is not null)

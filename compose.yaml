@@ -1,0 +1,7 @@
+﻿services:
+  newsportal.api:
+    image: newsportal.api
+    build:
+      context: .
+      dockerfile: NewsPortal.Api/Dockerfile
+
