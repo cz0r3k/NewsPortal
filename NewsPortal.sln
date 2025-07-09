@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsPortal.Domain", "NewsPortal.Domain\NewsPortal.Domain.csproj", "{8B95656D-A8F0-403C-BA4B-6363C5F2260D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsPortal.Application", "NewsPortal.Application\NewsPortal.Application.csproj", "{19DFFD40-D518-465D-A3E7-6FB626715A76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{8B95656D-A8F0-403C-BA4B-6363C5F2260D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B95656D-A8F0-403C-BA4B-6363C5F2260D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B95656D-A8F0-403C-BA4B-6363C5F2260D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19DFFD40-D518-465D-A3E7-6FB626715A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19DFFD40-D518-465D-A3E7-6FB626715A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19DFFD40-D518-465D-A3E7-6FB626715A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19DFFD40-D518-465D-A3E7-6FB626715A76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
