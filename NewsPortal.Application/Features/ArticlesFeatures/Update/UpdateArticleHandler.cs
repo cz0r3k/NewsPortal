@@ -10,7 +10,7 @@ public class UpdateArticleHandler(IArticleRepository articleRepository)
 {
     public async Task<Result<Article>> Handle(UpdateArticleRequest request, CancellationToken cancellationToken)
     {
-        var article = await articleRepository.GetById(request.Id);
+        var article = await articleRepository.GetById(request.Id, cancellationToken);
         if (article is null)
             return Result.Fail("Article not found");
         if (request.Title is not null)

@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsPortal.Domain", "NewsPo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsPortal.Application", "NewsPortal.Application\NewsPortal.Application.csproj", "{19DFFD40-D518-465D-A3E7-6FB626715A76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsPortal.Domain.Tests", "NewsPortal.Domain.Tests\NewsPortal.Domain.Tests.csproj", "{3859470E-6516-416A-8F00-9D73C4605676}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsPortal.Infrastructure", "NewsPortal.Infrastructure\NewsPortal.Infrastructure.csproj", "{1F17CBB7-401F-442C-B16F-06138DFB2A8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{19DFFD40-D518-465D-A3E7-6FB626715A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19DFFD40-D518-465D-A3E7-6FB626715A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19DFFD40-D518-465D-A3E7-6FB626715A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3859470E-6516-416A-8F00-9D73C4605676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3859470E-6516-416A-8F00-9D73C4605676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3859470E-6516-416A-8F00-9D73C4605676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3859470E-6516-416A-8F00-9D73C4605676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F17CBB7-401F-442C-B16F-06138DFB2A8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F17CBB7-401F-442C-B16F-06138DFB2A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F17CBB7-401F-442C-B16F-06138DFB2A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F17CBB7-401F-442C-B16F-06138DFB2A8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

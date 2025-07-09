@@ -17,7 +17,14 @@ public class Article
 
     public void Publish() => Status = ArticleStatus.Published;
 
-    public static string GenerateSlug(string title) => string.Empty +
-                                                       title.ToLower().Replace(" ", "-").Where(c =>
-                                                           char.IsLetterOrDigit(c) || c is '-');
+    public static string GenerateSlug(string title)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+            return string.Empty;
+    
+        return new string(title.ToLower()
+            .Replace(" ", "-")
+            .Where(c => char.IsLetterOrDigit(c) || c == '-')
+            .ToArray());
+    }
 }

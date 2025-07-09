@@ -10,7 +10,7 @@ public sealed class AddCategoryHandler(ICategoryRepository categoryRepository)
 {
     public async Task<Result<Category>> Handle(AddCategoryRequest request, CancellationToken cancellationToken)
     {
-        if (await categoryRepository.GetByName(request.Name) != null)
+        if (await categoryRepository.GetByName(request.Name, cancellationToken) != null)
         {
             return Result.Fail("Category with this name already exists");
         }
