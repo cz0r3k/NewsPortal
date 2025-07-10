@@ -9,4 +9,5 @@ public record UpdateArticleRequest(
     string? Title,
     string? Content,
     string? Author,
+    Guid? CategoryId,
     ArticleStatus? Status) : IRequest<Result<Article>>;

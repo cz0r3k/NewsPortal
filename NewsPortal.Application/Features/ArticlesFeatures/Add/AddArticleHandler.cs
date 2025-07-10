@@ -5,17 +5,29 @@ using NewsPortal.Domain.Models;
 
 namespace NewsPortal.Application.Features.ArticlesFeatures.Add;
 
-public class AddArticleHandler(IArticleRepository articleRepository)
+public class AddArticleHandler(
+    IArticleRepository articleRepository,
+    ISlugRepository slugRepository,
+    ICategoryRepository categoryRepository)
     : IRequestHandler<AddArticleRequest, Result<Article>>
 {
     public async Task<Result<Article>> Handle(AddArticleRequest request, CancellationToken cancellationToken)
     {
+        if (request.CategoryId is not null && await categoryRepository.Exists(request.CategoryId.Value) is false)
+        {
+            return Result.Fail("Category not found");
+        }
+
         var slug = Article.GenerateSlug(request.Title);
-        var count = await articleRepository.CountSameSlug(slug);
-        var finalSlug = count == 0 ? slug : $"{slug}-{count}";
+        var slugNumber = await slugRepository.IncrementSlug(slug);
+        var finalSlug = slugNumber == 0 ? slug : $"{slug}-{slugNumber}";
         var article = new Article
         {
-            Author = request.Author, Slug = finalSlug, Content = request.Content, Title = request.Title,
+            Author = request.Author,
+            Slug = finalSlug,
+            Content = request.Content,
+            Title = request.Title,
+            CategoryId = request.CategoryId,
             Status = request.Status
         };
         await articleRepository.Create(article);

@@ -5,7 +5,10 @@ using NewsPortal.Domain.Models;
 
 namespace NewsPortal.Application.Features.ArticlesFeatures.Update;
 
-public class UpdateArticleHandler(IArticleRepository articleRepository)
+public class UpdateArticleHandler(
+    IArticleRepository articleRepository,
+    ISlugRepository slugRepository,
+    ICategoryRepository categoryRepository)
     : IRequestHandler<UpdateArticleRequest, Result<Article>>
 {
     public async Task<Result<Article>> Handle(UpdateArticleRequest request, CancellationToken cancellationToken)
@@ -13,16 +16,23 @@ public class UpdateArticleHandler(IArticleRepository articleRepository)
         var article = await articleRepository.GetById(request.Id, cancellationToken);
         if (article is null)
             return Result.Fail("Article not found");
+
+        if (request.CategoryId is not null && await categoryRepository.Exists(request.CategoryId.Value) is false)
+        {
+            return Result.Fail("Category not found");
+        }
+
         if (request.Title is not null)
         {
             var oldSlug = Article.GenerateSlug(article.Title);
             var newSlug = Article.GenerateSlug(request.Title);
             if (!Equals(oldSlug, newSlug))
             {
-                var count = await articleRepository.CountSameSlug(newSlug);
-                var finalSlug = count == 0 ? newSlug : $"{newSlug}-{count}";
+                var slugNumber = await slugRepository.IncrementSlug(newSlug);
+                var finalSlug = slugNumber == 0 ? newSlug : $"{newSlug}-{slugNumber}";
                 article.Slug = finalSlug;
             }
+
             article.Title = request.Title;
         }
 
@@ -30,9 +40,11 @@ public class UpdateArticleHandler(IArticleRepository articleRepository)
             article.Content = request.Content;
         if (request.Author is not null)
             article.Author = request.Author;
+        if (request.CategoryId is not null)
+            article.CategoryId = request.CategoryId;
         if (request.Status is not null)
             article.Status = (ArticleStatus)request.Status;
-        var updatedArticle = await articleRepository.Update(request.Id, article);
+        var updatedArticle = await articleRepository.Update(article);
         return Result.Ok(updatedArticle!);
     }
 }

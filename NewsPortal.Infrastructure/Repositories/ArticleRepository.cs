@@ -26,25 +26,13 @@ public class ArticleRepository(NewsContext context) : IArticleRepository
 
     public async Task<Article?> GetById(Guid id, CancellationToken cancellationToken)
     {
-        return await context.Articles.FirstOrDefaultAsync(cancellationToken);
+        return await context.Articles.FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
     }
 
-    public async Task<Article?> Update(Guid id, Article article)
+    public Task<Article?> Update(Article article)
     {
-        var existingArticle = await context.Articles.FirstOrDefaultAsync(a => a.Id == id);
-
-        if (existingArticle == null)
-            return null;
-
-        existingArticle.Title = article.Title;
-        existingArticle.Content = article.Content;
-        existingArticle.Author = article.Author;
-        existingArticle.Slug = article.Slug;
-        existingArticle.CategoryId = article.CategoryId;
-        existingArticle.Status = article.Status;
-
-        await context.SaveChangesAsync();
-        return existingArticle;
+        context.Update(article);
+        return Task.FromResult(article)!;
     }
 
     public async Task<Article?> Publish(Guid id)
@@ -53,10 +41,5 @@ public class ArticleRepository(NewsContext context) : IArticleRepository
         article?.Publish();
         await context.SaveChangesAsync();
         return article;
-    }
-
-    public Task<int> CountSameSlug(string slug)
-    {
-        return Task.FromResult(0);
     }
 }

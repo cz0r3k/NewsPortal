@@ -17,6 +17,7 @@ public class ArticlesController(ILogger<CategoriesController> logger, IMediator 
         CancellationToken cancellationToken)
     {
         var response = await mediator.Send(new GetAllArticlesRequest(status), cancellationToken);
+        logger.LogInformation("Get all articles");
         return Ok(response.Value);
     }
 
@@ -24,7 +25,7 @@ public class ArticlesController(ILogger<CategoriesController> logger, IMediator 
     public async Task<ActionResult<Article>> Add(AddArticleRequest request)
     {
         var response = await mediator.Send(request);
-        return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Errors);
+        return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Errors[0].Message);
     }
 
     [HttpGet("{articleId:guid}")]
@@ -38,7 +39,7 @@ public class ArticlesController(ILogger<CategoriesController> logger, IMediator 
     public async Task<ActionResult<Article>> Update(Guid articleId, UpdateArticle request)
     {
         var response = await mediator.Send(request.ToUpdateArticleRequest(articleId));
-        return response.IsSuccess ? Ok(response.Value) : NotFound();
+        return response.IsSuccess ? Ok(response.Value) : NotFound(response.Errors[0].Message);
     }
 
     [HttpPost("{articleId:guid}/publish")]

@@ -13,5 +13,6 @@ public static class ServiceExtensions
         services.AddDbContext<NewsContext>(options => options.UseInMemoryDatabase("NewsPortalInMemoryDb"));
         services.AddScoped<IArticleRepository, ArticleRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ISlugRepository, SlugRepository>();
     }
 }
