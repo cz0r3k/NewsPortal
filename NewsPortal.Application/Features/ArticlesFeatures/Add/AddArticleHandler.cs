@@ -15,7 +15,7 @@ public class AddArticleHandler(
     {
         if (request.CategoryId is not null && await categoryRepository.Exists(request.CategoryId.Value) is false)
         {
-            return Result.Fail("Category not found");
+            return Result.Fail($"Category (id:{request.CategoryId}) not found");
         }
 
         var slug = Article.GenerateSlug(request.Title);

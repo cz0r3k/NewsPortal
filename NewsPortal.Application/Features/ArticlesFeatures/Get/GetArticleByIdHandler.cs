@@ -11,6 +11,6 @@ public class GetArticleByIdHandler(IArticleRepository articleRepository)
     public async Task<Result<Article>> Handle(GetArticleByIdRequest request, CancellationToken cancellationToken)
     {
         var article = await articleRepository.GetById(request.Id, cancellationToken);
-        return article is null ? Result.Fail("Article not found") : Result.Ok(article);
+        return article is null ? Result.Fail($"Article (id:{request.Id}) not found") : Result.Ok(article);
     }
 }

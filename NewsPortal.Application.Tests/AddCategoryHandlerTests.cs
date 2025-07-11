@@ -60,7 +60,7 @@ public class AddCategoryHandlerTests
 
         // Assert
         result.IsSuccess.Should().BeFalse();
-        result.Errors.Should().Contain(error => error.Message == "Category with this name already exists");
+        result.Errors.Should().Contain(error => error.Message == $"Category with this name ({request.Name}) already exists");
 
         _categoryRepositoryMock.Verify(x => x.GetByName(request.Name, cancellationToken), Times.Once);
         _categoryRepositoryMock.Verify(x => x.Create(It.IsAny<Category>()), Times.Never);

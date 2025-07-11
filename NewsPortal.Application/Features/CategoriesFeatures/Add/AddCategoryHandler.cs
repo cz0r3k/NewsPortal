@@ -12,7 +12,7 @@ public sealed class AddCategoryHandler(ICategoryRepository categoryRepository)
     {
         if (await categoryRepository.GetByName(request.Name, cancellationToken) != null)
         {
-            return Result.Fail("Category with this name already exists");
+            return Result.Fail($"Category with this name ({request.Name}) already exists");
         }
 
         var category = new Category { Name = request.Name };

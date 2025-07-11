@@ -11,6 +11,6 @@ public class PublishArticleHandler(IArticleRepository articleRepository)
     public async Task<Result<Article>> Handle(PublishArticleRequest request, CancellationToken cancellationToken)
     {
         var article = await articleRepository.Publish(request.Id);
-        return article is null ? Result.Fail("Article not found") : Result.Ok(article);
+        return article is null ? Result.Fail($"Article (id:{request.Id}) not found") : Result.Ok(article);
     }
 }

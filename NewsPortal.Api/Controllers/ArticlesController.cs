@@ -18,6 +18,7 @@ public class ArticlesController(
     IArticleStatsService articleStatsService) : ControllerBase
 {
     [HttpGet]
+    [ProducesResponseType(200)]
     public async Task<ActionResult<IEnumerable<Article>>> GetAll([FromQuery] ArticleStatus? status,
         CancellationToken cancellationToken)
     {
@@ -26,6 +27,9 @@ public class ArticlesController(
     }
 
     [HttpPost]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
     public async Task<ActionResult<Article>> Add(AddArticleRequest request)
     {
         var response = await mediator.Send(request);
@@ -36,13 +40,23 @@ public class ArticlesController(
     }
 
     [HttpGet("{articleId:guid}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
     public async Task<ActionResult<Article>> GetById(Guid articleId, CancellationToken cancellationToken)
     {
         var response = await mediator.Send(new GetArticleByIdRequest(articleId), cancellationToken);
-        return response.IsSuccess ? Ok(response.Value) : NotFound();
+        if (response.IsSuccess)
+        {
+            return Ok(response.Value);
+        }
+        logger.LogError("Get article by Id error [{}]", response.Errors[0].Message);
+        return NotFound();
     }
 
     [HttpPut("{articleId:guid}")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
     public async Task<ActionResult<Article>> Update(Guid articleId, UpdateArticle request)
     {
         var response = await mediator.Send(request.ToUpdateArticleRequest(articleId));
@@ -56,6 +70,8 @@ public class ArticlesController(
     }
 
     [HttpPost("{articleId:guid}/publish")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(404)]
     public async Task<ActionResult<Article>> Publish(Guid articleId)
     {
         var response = await mediator.Send(new PublishArticleRequest(articleId));
@@ -69,6 +85,7 @@ public class ArticlesController(
     }
 
     [HttpGet("stats")]
+    [ProducesResponseType(200)]
     public async Task<ActionResult<ArticleStats>> Stats()
     {
         var articlesResponse = await mediator.Send(new GetAllArticlesRequest());

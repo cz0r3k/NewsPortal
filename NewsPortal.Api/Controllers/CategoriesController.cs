@@ -11,6 +11,7 @@ namespace NewsPortal.Api.Controllers;
 public class CategoriesController(ILogger<CategoriesController> logger, IMediator mediator) : ControllerBase
 {
     [HttpGet]
+    [ProducesResponseType(200)]
     public async Task<ActionResult<IEnumerable<Category>>> GetAll(CancellationToken cancellationToken)
     {
         var response = await mediator.Send(new GetAllCategoriesRequest(), cancellationToken);
@@ -18,6 +19,8 @@ public class CategoriesController(ILogger<CategoriesController> logger, IMediato
     }
 
     [HttpPost]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
     public async Task<ActionResult<Category>> Add(AddCategoryRequest request, CancellationToken cancellationToken)
     {
         var response = await mediator.Send(request, cancellationToken);
