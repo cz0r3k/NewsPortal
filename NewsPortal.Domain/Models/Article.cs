@@ -4,14 +4,14 @@ namespace NewsPortal.Domain.Models;
 
 public class Article
 {
-    private const int ContentMinLength = 10;
+    public const int ContentMinLength = 10;
 
     public Guid Id { get; set; } = Guid.NewGuid();
     [Required(AllowEmptyStrings = false)] public required string Title { get; set; }
     [MinLength(ContentMinLength)] public required string Content { get; set; }
     public required string Author { get; set; }
     public string Slug { get; set; } = string.Empty;
-    public Guid? CategoryId { get; set; } = null;
+    public Guid? CategoryId { get; set; }
     public ArticleStatus Status { get; set; } = ArticleStatus.Draft;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 

@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using NewsPortal.Application;
+using NewsPortal.Domain.Services;
 using NewsPortal.Infrastructure.Context;
 using NewsPortal.Infrastructure;
 
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigurePersistence();
 builder.Services.ConfigureApplication();
+builder.Services.AddScoped<IArticleStatsService, ArticleStatsService>();
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 

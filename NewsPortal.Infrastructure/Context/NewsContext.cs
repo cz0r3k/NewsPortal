@@ -8,4 +8,9 @@ public class NewsContext(DbContextOptions<NewsContext> options) : DbContext(opti
     public DbSet<Article> Articles { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<SlugCounter> Slugs { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<Category>(entity => { entity.HasIndex(e => e.Name).IsUnique(); });
+    }
 }

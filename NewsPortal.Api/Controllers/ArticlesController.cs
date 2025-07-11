@@ -4,20 +4,24 @@ using NewsPortal.Application.Features.ArticlesFeatures.Add;
 using NewsPortal.Application.Features.ArticlesFeatures.Get;
 using NewsPortal.Application.Features.ArticlesFeatures.Publish;
 using NewsPortal.Application.Features.ArticlesFeatures.Update;
+using NewsPortal.Application.Features.CategoriesFeatures.Get;
 using NewsPortal.Domain.Models;
+using NewsPortal.Domain.Services;
 
 namespace NewsPortal.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ArticlesController(ILogger<CategoriesController> logger, IMediator mediator) : ControllerBase
+public class ArticlesController(
+    ILogger<CategoriesController> logger,
+    IMediator mediator,
+    IArticleStatsService articleStatsService) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Article>>> GetAll([FromQuery] ArticleStatus? status,
         CancellationToken cancellationToken)
     {
         var response = await mediator.Send(new GetAllArticlesRequest(status), cancellationToken);
-        logger.LogInformation("Get all articles");
         return Ok(response.Value);
     }
 
@@ -25,7 +29,10 @@ public class ArticlesController(ILogger<CategoriesController> logger, IMediator 
     public async Task<ActionResult<Article>> Add(AddArticleRequest request)
     {
         var response = await mediator.Send(request);
-        return response.IsSuccess ? Ok(response.Value) : BadRequest(response.Errors[0].Message);
+        if (response.IsSuccess)
+            return Ok(response.Value);
+        logger.LogError("Add article error [{}]", response.Errors[0].Message);
+        return NotFound();
     }
 
     [HttpGet("{articleId:guid}")]
@@ -39,13 +46,50 @@ public class ArticlesController(ILogger<CategoriesController> logger, IMediator 
     public async Task<ActionResult<Article>> Update(Guid articleId, UpdateArticle request)
     {
         var response = await mediator.Send(request.ToUpdateArticleRequest(articleId));
-        return response.IsSuccess ? Ok(response.Value) : NotFound(response.Errors[0].Message);
+        if (response.IsSuccess)
+        {
+            return Ok(response.Value);
+        }
+
+        logger.LogError("Update article error [{}]", response.Errors[0].Message);
+        return NotFound();
     }
 
     [HttpPost("{articleId:guid}/publish")]
     public async Task<ActionResult<Article>> Publish(Guid articleId)
     {
         var response = await mediator.Send(new PublishArticleRequest(articleId));
-        return response.IsSuccess ? Ok(response.Value) : NotFound();
+        if (response.IsSuccess)
+        {
+            return Ok(response.Value);
+        }
+
+        logger.LogError("Publish article error [{}]", response.Errors[0].Message);
+        return NotFound();
+    }
+
+    [HttpGet("stats")]
+    public async Task<ActionResult<ArticleStats>> Stats()
+    {
+        var articlesResponse = await mediator.Send(new GetAllArticlesRequest());
+        var articles = articlesResponse.Value;
+
+        var published = articleStatsService.CountPublished(articles);
+        var drafts = articleStatsService.CountDrafts(articles);
+        var categoryId = articleStatsService.MostCommonlyUsedCategory(articles);
+
+        var categoryName = await GetCategoryNameAsync(categoryId);
+        return Ok(new ArticleStats(published, drafts, categoryName));
+    }
+
+    private async Task<string?> GetCategoryNameAsync(Guid? categoryId)
+    {
+        if (categoryId is null)
+            return null;
+        var categoryResponse = await mediator.Send(new GetCategoryByIdRequest(categoryId.Value));
+        if (categoryResponse.IsSuccess)
+            return categoryResponse.Value.Name;
+        logger.LogError("Get category by Id error [{}]", categoryResponse.Errors[0].Message);
+        return null;
     }
 }

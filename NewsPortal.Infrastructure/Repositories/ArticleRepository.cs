@@ -29,10 +29,11 @@ public class ArticleRepository(NewsContext context) : IArticleRepository
         return await context.Articles.FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
     }
 
-    public Task<Article?> Update(Article article)
+    public async Task<Article?> Update(Article article)
     {
         context.Update(article);
-        return Task.FromResult(article)!;
+        await context.SaveChangesAsync();
+        return article;
     }
 
     public async Task<Article?> Publish(Guid id)

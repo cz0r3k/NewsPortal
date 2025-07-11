@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace NewsPortal.Domain.Models;
+﻿namespace NewsPortal.Domain.Models;
 
 public enum ArticleStatus
 {

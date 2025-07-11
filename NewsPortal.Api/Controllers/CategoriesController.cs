@@ -14,7 +14,6 @@ public class CategoriesController(ILogger<CategoriesController> logger, IMediato
     public async Task<ActionResult<IEnumerable<Category>>> GetAll(CancellationToken cancellationToken)
     {
         var response = await mediator.Send(new GetAllCategoriesRequest(), cancellationToken);
-        logger.LogInformation("Get all categories");
         return Ok(response.Value);
     }
 
@@ -30,7 +29,6 @@ public class CategoriesController(ILogger<CategoriesController> logger, IMediato
         }
 
         logger.LogError("Add category error [{}]", response.Errors[0].Message);
-        ;
-        return BadRequest(response.Errors[0].Message);
+        return BadRequest();
     }
 }

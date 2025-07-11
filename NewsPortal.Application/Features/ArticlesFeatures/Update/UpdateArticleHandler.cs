@@ -15,11 +15,11 @@ public class UpdateArticleHandler(
     {
         var article = await articleRepository.GetById(request.Id, cancellationToken);
         if (article is null)
-            return Result.Fail("Article not found");
+            return Result.Fail($"Article (id:{request.Id}) not found");
 
         if (request.CategoryId is not null && await categoryRepository.Exists(request.CategoryId.Value) is false)
         {
-            return Result.Fail("Category not found");
+            return Result.Fail($"Category (id:{request.CategoryId}) not found");
         }
 
         if (request.Title is not null)

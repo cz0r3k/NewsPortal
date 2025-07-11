@@ -24,6 +24,11 @@ public class CategoryRepository(NewsContext context) : ICategoryRepository
         return await context.Categories.FirstOrDefaultAsync(c => c.Name == name, cancellationToken);
     }
 
+    public async Task<Category?> GetById(Guid id, CancellationToken cancellationToken)
+    {
+        return await context.Categories.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+    }
+
     public async Task<bool> Exists(Guid id)
     {
         return await context.Categories.AnyAsync(c => c.Id == id);
